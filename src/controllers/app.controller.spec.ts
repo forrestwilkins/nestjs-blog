@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppController } from "./app.controller";
 import { AppService } from "../services/app.service";
+import { AppController } from "./app.controller";
 
 describe("AppController", () => {
   let appController: AppController;
@@ -15,8 +15,8 @@ describe("AppController", () => {
   });
 
   describe("root", () => {
-    it.skip("should return all posts", () => {
-      expect(appController.getPosts()).toBe("");
+    it('should return "Welcome!"', () => {
+      expect(appController.getWelcome()).toBe("Welcome!");
     });
   });
 });

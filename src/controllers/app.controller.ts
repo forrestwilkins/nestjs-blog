@@ -1,7 +1,8 @@
 import { Controller, Get, Param, Post, Body, Delete } from "@nestjs/common";
+import { User as UserModel, Post as PostModel } from "@prisma/client";
+
 import { UserService } from "../services/user.service";
 import { PostService } from "../services/post.service";
-import { User as UserModel, Post as PostModel } from "@prisma/client";
 
 @Controller()
 export class AppController {
@@ -10,14 +11,14 @@ export class AppController {
     private readonly postService: PostService
   ) {}
 
+  @Get()
+  async getPosts(): Promise<PostModel[]> {
+    return this.postService.posts({});
+  }
+
   @Get("post/:id")
   async getPostById(@Param("id") id: string): Promise<PostModel> {
     return this.postService.post({ id: Number(id) });
-  }
-
-  @Get("posts")
-  async getPosts(): Promise<PostModel[]> {
-    return this.postService.posts({});
   }
 
   @Get("filtered-posts/:searchString")

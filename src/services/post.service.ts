@@ -14,20 +14,10 @@ export class PostService {
     });
   }
 
-  async posts(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.PostWhereUniqueInput;
-    where?: Prisma.PostWhereInput;
-    orderBy?: Prisma.PostOrderByWithRelationInput;
-  }): Promise<PostModel[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+  async posts(params: { where?: Prisma.PostWhereInput }): Promise<PostModel[]> {
+    const { where } = params;
     return this.prisma.post.findMany({
-      skip,
-      take,
-      cursor,
       where,
-      orderBy,
     });
   }
 

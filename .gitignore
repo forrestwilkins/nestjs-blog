@@ -11,6 +11,13 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Environment variables file
+.env
+.env.test
+.env.development.local
+.env.test.local
+.env.production.local
+
 # OS
 .DS_Store
 
@@ -33,3 +40,12 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Ignore hidden files by default
+.*
+!.gitignore
+!.gitkeep
+!.prettierrc
+!.eslintrc
+!.babelrc
+!.github/

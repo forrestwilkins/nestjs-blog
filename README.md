@@ -15,7 +15,7 @@ $ yarn install
 $ npx prisma migrate dev
 
 # Enable pre-commit hook with Husky
-npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
+$ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 ```
 
 ## Running the app

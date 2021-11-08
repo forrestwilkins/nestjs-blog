@@ -1,6 +1,6 @@
 ## Description
 
-Blog built with NestJS and Prisma
+Blog backend built with NestJS and Prisma
 
 ## Installation
 
@@ -16,6 +16,8 @@ $ npx prisma migrate dev
 
 # Enable pre-commit hook with Husky
 $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
+
+# JWT_KEY will also have to be set in .env for authentication
 ```
 
 ## Running the app
@@ -26,9 +28,6 @@ $ yarn start
 
 # Watch mode
 $ yarn start:dev
-
-# Production mode
-$ yarn start:prod
 ```
 
 ## Test
@@ -36,9 +35,6 @@ $ yarn start:prod
 ```bash
 # Unit tests
 $ yarn test
-
-# E2E tests
-$ yarn test:e2e
 
 # Test coverage
 $ yarn test:cov

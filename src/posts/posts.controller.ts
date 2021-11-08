@@ -10,29 +10,29 @@ import {
 } from "@nestjs/common";
 import { Post as PostModel, Comment as CommentModel } from "@prisma/client";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { CommentService } from "../services/comment.service";
-import { PostService } from "../services/post.service";
+import { CommentsService } from "../comments/comments.service";
+import { PostsService } from "./posts.service";
 
 @Controller("posts")
-export class PostController {
+export class PostsController {
   constructor(
-    private readonly postService: PostService,
-    private readonly commentService: CommentService
+    private readonly postsService: PostsService,
+    private readonly commentsService: CommentsService
   ) {}
 
   @Get()
   async getPosts(): Promise<PostModel[]> {
-    return this.postService.posts({});
+    return this.postsService.posts({});
   }
 
   @Get(":id")
   async getPostById(@Param("id") id: string): Promise<PostModel> {
-    return this.postService.post({ id: Number(id) });
+    return this.postsService.post({ id: Number(id) });
   }
 
   @Get(":id/comments")
   async getCommentsByPostId(@Param("id") id: string): Promise<CommentModel[]> {
-    return this.commentService.comments({
+    return this.commentsService.comments({
       where: {
         postId: Number(id),
       },
@@ -41,7 +41,7 @@ export class PostController {
 
   @Get("search/:query")
   async getFilteredPosts(@Param("query") query: string): Promise<PostModel[]> {
-    return this.postService.posts({
+    return this.postsService.posts({
       where: {
         OR: [
           {
@@ -61,7 +61,7 @@ export class PostController {
     @Body() postData: { title: string; body: string; userId: number }
   ): Promise<PostModel> {
     const { title, body, userId } = postData;
-    return this.postService.createPost({
+    return this.postsService.createPost({
       title,
       body,
       user: {
@@ -76,7 +76,7 @@ export class PostController {
     @Param() { id }: { id: string },
     @Body() postData: { title: string; body: string }
   ): Promise<PostModel> {
-    return this.postService.updatePost({
+    return this.postsService.updatePost({
       where: {
         id: Number(id),
       },
@@ -87,6 +87,6 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async deletePost(@Param("id") id: string): Promise<PostModel> {
-    return this.postService.deletePost({ id: Number(id) });
+    return this.postsService.deletePost({ id: Number(id) });
   }
 }

@@ -3,12 +3,12 @@
 import { User as UserModel } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { UserService } from "../services/user.service";
+import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UserService,
+    private usersService: UsersService,
     private jwtService: JwtService
   ) {}
 

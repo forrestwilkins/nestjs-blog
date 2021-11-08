@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Comment as CommentModel } from "@prisma/client";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { CommentsService } from "src/comments/comments.service";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { CommentsService } from "./comments.service";
 
 @Controller("comments")
 export class CommentsController {

@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Post as PostModel, Comment as CommentModel } from "@prisma/client";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CommentsService } from "../comments/comments.service";
 import { PostsService } from "./posts.service";
 

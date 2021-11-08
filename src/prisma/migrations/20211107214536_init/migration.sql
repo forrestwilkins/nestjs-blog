@@ -24,7 +24,7 @@ CREATE TABLE "Post" (
 -- CreateTable
 CREATE TABLE "Comment" (
     "id" SERIAL NOT NULL,
-    "body" TEXT,
+    "body" TEXT NOT NULL,
     "userId" INTEGER,
     "postId" INTEGER,
     "commentId" INTEGER,
@@ -33,6 +33,9 @@ CREATE TABLE "Comment" (
 
     CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

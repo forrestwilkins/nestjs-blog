@@ -10,27 +10,27 @@ import {
 } from "@nestjs/common";
 import { Comment as CommentModel } from "@prisma/client";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { CommentService } from "src/services/comment.service";
+import { CommentsService } from "src/comments/comments.service";
 
 @Controller("comments")
-export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+export class CommentsController {
+  constructor(private readonly commentsService: CommentsService) {}
 
   @Get()
   async getComments(): Promise<CommentModel[]> {
-    return this.commentService.comments({});
+    return this.commentsService.comments({});
   }
 
   @Get(":id")
   async getCommentById(@Param("id") id: string): Promise<CommentModel> {
-    return this.commentService.comment({ id: Number(id) });
+    return this.commentsService.comment({ id: Number(id) });
   }
 
   @Get(":id/replies")
   async getRepliesByCommentId(
     @Param("id") id: string
   ): Promise<CommentModel[]> {
-    return this.commentService.comments({
+    return this.commentsService.comments({
       where: {
         commentId: Number(id),
       },
@@ -64,7 +64,7 @@ export class CommentController {
         }
       : undefined;
 
-    return this.commentService.createComment({
+    return this.commentsService.createComment({
       body,
       user: {
         connect: { id: userId },
@@ -80,7 +80,7 @@ export class CommentController {
     @Param() { id }: { id: string },
     @Body() commentData: { body: string }
   ): Promise<CommentModel> {
-    return this.commentService.updateComment({
+    return this.commentsService.updateComment({
       where: {
         id: Number(id),
       },
@@ -91,6 +91,6 @@ export class CommentController {
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async deleteComment(@Param("id") id: string): Promise<CommentModel> {
-    return this.commentService.deleteComment({ id: Number(id) });
+    return this.commentsService.deleteComment({ id: Number(id) });
   }
 }

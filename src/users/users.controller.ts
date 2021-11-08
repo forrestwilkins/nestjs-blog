@@ -9,31 +9,31 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { User as UserModel, Post as PostModel } from "@prisma/client";
-import { UserService } from "../services/user.service";
-import { PostService } from "../services/post.service";
+import { UsersService } from "./users.service";
+import { PostsService } from "../posts/posts.service";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("users")
-export class UserController {
+export class UsersController {
   constructor(
-    private readonly userService: UserService,
-    private readonly postService: PostService
+    private readonly usersService: UsersService,
+    private readonly postsService: PostsService
   ) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async getUsers(): Promise<UserModel[]> {
-    return this.userService.users({});
+    return this.usersService.users({});
   }
 
   @Get(":id")
   async getUserById(@Param("id") id: string): Promise<UserModel> {
-    return this.userService.user({ id: Number(id) });
+    return this.usersService.user({ id: Number(id) });
   }
 
   @Get(":id/posts")
   async getPosts(@Param("id") id: string): Promise<PostModel[]> {
-    return this.postService.posts({
+    return this.postsService.posts({
       where: {
         userId: Number(id),
       },
@@ -45,7 +45,7 @@ export class UserController {
   async signupUser(
     @Body() userData: { name: string; password: string }
   ): Promise<UserModel> {
-    return this.userService.createUser(userData);
+    return this.usersService.createUser(userData);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -54,7 +54,7 @@ export class UserController {
     @Param() { id }: { id: string },
     @Body() userData: { name: string; password: string }
   ): Promise<UserModel> {
-    return this.userService.updateUser({
+    return this.usersService.updateUser({
       where: {
         id: Number(id),
       },
@@ -65,6 +65,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async deleteUser(@Param("id") id: string): Promise<UserModel> {
-    return this.userService.deleteUser({ id: Number(id) });
+    return this.usersService.deleteUser({ id: Number(id) });
   }
 }

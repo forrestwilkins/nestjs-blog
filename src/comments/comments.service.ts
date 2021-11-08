@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
+import { PrismaService } from "../prisma/prisma.service";
 import { Comment as CommentModel, Prisma } from "@prisma/client";
 
 @Injectable()
-export class CommentService {
+export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
   async comment(

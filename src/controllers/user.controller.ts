@@ -1,15 +1,17 @@
 import {
-  Controller,
   Get,
   Post,
   Body,
   Param,
   Delete,
   Patch,
+  Controller,
+  UseGuards,
 } from "@nestjs/common";
 import { User as UserModel, Post as PostModel } from "@prisma/client";
 import { UserService } from "../services/user.service";
 import { PostService } from "../services/post.service";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("users")
 export class UserController {
@@ -18,6 +20,7 @@ export class UserController {
     private readonly postService: PostService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getUsers(): Promise<UserModel[]> {
     return this.userService.users({});
@@ -37,6 +40,7 @@ export class UserController {
     });
   }
 
+  // TODO: Log in user with AuthService on sign up
   @Post()
   async signupUser(
     @Body() userData: { name: string; password: string }
@@ -44,6 +48,7 @@ export class UserController {
     return this.userService.createUser(userData);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(":id")
   async updateUser(
     @Param() { id }: { id: string },
@@ -57,6 +62,7 @@ export class UserController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async deleteUser(@Param("id") id: string): Promise<UserModel> {
     return this.userService.deleteUser({ id: Number(id) });

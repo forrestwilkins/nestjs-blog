@@ -6,8 +6,10 @@ import {
   Body,
   Delete,
   Patch,
+  UseGuards,
 } from "@nestjs/common";
 import { Comment as CommentModel } from "@prisma/client";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CommentService } from "src/services/comment.service";
 
 @Controller("comments")
@@ -35,6 +37,7 @@ export class CommentController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async createComment(
     @Body()
@@ -71,6 +74,7 @@ export class CommentController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(":id")
   async updateComment(
     @Param() { id }: { id: string },
@@ -84,6 +88,7 @@ export class CommentController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async deleteComment(@Param("id") id: string): Promise<CommentModel> {
     return this.commentService.deleteComment({ id: Number(id) });

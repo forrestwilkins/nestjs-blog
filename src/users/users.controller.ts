@@ -11,7 +11,7 @@ import {
 import { User as UserModel, Post as PostModel } from "@prisma/client";
 import { UsersService } from "./users.service";
 import { PostsService } from "../posts/posts.service";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("users")
 export class UsersController {

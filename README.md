@@ -8,7 +8,7 @@ Blog backend built with NestJS and Prisma
 # Install Yarn
 $ npm install -g yarn
 
-# Start the app locally
+# Install dependencies
 $ yarn install
 
 # Add .env file with DATABASE_URL and run migrations
@@ -25,15 +25,12 @@ $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 ```bash
 # Development
 $ yarn start
-
-# Watch mode
-$ yarn start:dev
 ```
 
 ## Test
 
 ```bash
-# Unit tests
+# Run tests
 $ yarn test
 
 # Test coverage

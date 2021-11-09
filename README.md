@@ -2,6 +2,8 @@
 
 Blog backend built with NestJS and Prisma
 
+A walkthrough for this project is available at [WALKTHROUGH.md](WALKTHROUGH.md).
+
 ## Installation
 
 ```bash

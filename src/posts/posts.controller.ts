@@ -8,11 +8,13 @@ import {
   Patch,
   UseGuards,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { Post as PostModel, Comment as CommentModel } from "@prisma/client";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CommentsService } from "../comments/comments.service";
 import { PostsService } from "./posts.service";
 
+@ApiTags("posts")
 @Controller("posts")
 export class PostsController {
   constructor(

@@ -12,7 +12,9 @@ import { User as UserModel, Post as PostModel } from "@prisma/client";
 import { UsersService } from "./users.service";
 import { PostsService } from "../posts/posts.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("users")
 @Controller("users")
 export class UsersController {
   constructor(

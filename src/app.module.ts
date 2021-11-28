@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "src/auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -6,9 +7,18 @@ import { CommentsModule } from "./comments/comments.module";
 import { PostsModule } from "./posts/posts.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { UsersModule } from "./users/users.module";
+import config from "./ormconfig";
 
 @Module({
-  imports: [UsersModule, PostsModule, CommentsModule, AuthModule, PrismaModule],
+  imports: [
+    TypeOrmModule.forRoot(config),
+
+    AuthModule,
+    UsersModule,
+    PostsModule,
+    CommentsModule,
+    PrismaModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

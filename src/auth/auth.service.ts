@@ -16,7 +16,7 @@ export class AuthService {
     name: string,
     password: string
   ): Promise<Partial<UserModel>> {
-    const user = await this.usersService.user({ name });
+    const user = await this.usersService.user({ where: { name } });
     if (user && user.password === password) {
       const { password: _password, ...result } = user;
       return result;
@@ -24,8 +24,8 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async login({ id, name }: UserModel): Promise<{ access_token: string }> {
+    const payload = { username: name, sub: id };
     return {
       access_token: this.jwtService.sign(payload),
     };

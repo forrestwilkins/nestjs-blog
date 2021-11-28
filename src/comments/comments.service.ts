@@ -1,50 +1,60 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { Comment as CommentModel, Prisma } from "@prisma/client";
+import { InjectRepository } from "@nestjs/typeorm";
+import {
+  DeleteResult,
+  FindConditions,
+  FindManyOptions,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from "typeorm";
+import { CommentEntity } from "./comment.entity";
 
 @Injectable()
 export class CommentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @InjectRepository(CommentEntity)
+    private commentsRepository: Repository<CommentEntity>
+  ) {}
 
   async comment(
-    CommentWhereUniqueInput: Prisma.CommentWhereUniqueInput
-  ): Promise<CommentModel | null> {
-    return this.prisma.comment.findUnique({
-      where: CommentWhereUniqueInput,
-    });
+    options: FindOneOptions<CommentEntity>
+  ): Promise<CommentEntity | null> {
+    return this.commentsRepository.findOne(options);
   }
 
-  async comments(params: {
-    where?: Prisma.CommentWhereInput;
-  }): Promise<CommentModel[]> {
-    const { where } = params;
-    return this.prisma.comment.findMany({
-      where,
-    });
+  async comments(
+    options?: FindManyOptions<CommentEntity>
+  ): Promise<CommentEntity[]> {
+    return this.commentsRepository.find(options);
   }
 
-  async createComment(data: Prisma.CommentCreateInput): Promise<CommentModel> {
-    return this.prisma.comment.create({
-      data,
+  async createComment(params: {
+    body: string;
+    userId: number;
+    postId?: number;
+    commentId?: number;
+  }): Promise<CommentEntity> {
+    const { body, userId, postId, commentId } = params;
+    return this.commentsRepository.create({
+      body,
+      user: { id: userId },
+      post: { id: postId },
+      comment: { id: commentId },
     });
   }
 
   async updateComment(params: {
-    where: Prisma.CommentWhereUniqueInput;
-    data: Prisma.CommentUpdateInput;
-  }): Promise<CommentModel> {
+    where: FindConditions<CommentEntity>;
+    data: Partial<CommentEntity>;
+  }): Promise<UpdateResult> {
     const { data, where } = params;
-    return this.prisma.comment.update({
-      data,
-      where,
-    });
+    return this.commentsRepository.update(where, data);
   }
 
   async deleteComment(
-    where: Prisma.CommentWhereUniqueInput
-  ): Promise<CommentModel> {
-    return this.prisma.comment.delete({
-      where,
-    });
+    where: FindConditions<CommentEntity>
+  ): Promise<DeleteResult> {
+    return this.commentsRepository.delete(where);
   }
 }

@@ -1,46 +1,47 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { Post as PostModel, Prisma } from "@prisma/client";
+import { InjectRepository } from "@nestjs/typeorm";
+import {
+  DeleteResult,
+  FindConditions,
+  FindManyOptions,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from "typeorm";
+import { PostEntity } from "./post.entity";
 
 @Injectable()
 export class PostsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @InjectRepository(PostEntity)
+    private postsRepository: Repository<PostEntity>
+  ) {}
 
-  async post(
-    postWhereUniqueInput: Prisma.PostWhereUniqueInput
-  ): Promise<PostModel | null> {
-    return this.prisma.post.findUnique({
-      where: postWhereUniqueInput,
-    });
+  async post(options: FindOneOptions<PostEntity>): Promise<PostEntity> {
+    return this.postsRepository.findOne(options);
   }
 
-  async posts(params: { where?: Prisma.PostWhereInput }): Promise<PostModel[]> {
-    const { where } = params;
-    return this.prisma.post.findMany({
-      where,
-    });
+  async posts(options?: FindManyOptions<PostEntity>): Promise<PostEntity[]> {
+    return this.postsRepository.find(options);
   }
 
-  async createPost(data: Prisma.PostCreateInput): Promise<PostModel> {
-    return this.prisma.post.create({
-      data,
-    });
+  async createPost(params: {
+    userId: number;
+    data: Partial<PostEntity>;
+  }): Promise<PostEntity> {
+    const { userId, data } = params;
+    return this.postsRepository.create({ ...data, user: { id: userId } });
   }
 
   async updatePost(params: {
-    where: Prisma.PostWhereUniqueInput;
-    data: Prisma.PostUpdateInput;
-  }): Promise<PostModel> {
+    where: FindConditions<PostEntity>;
+    data: Partial<PostEntity>;
+  }): Promise<UpdateResult> {
     const { data, where } = params;
-    return this.prisma.post.update({
-      data,
-      where,
-    });
+    return this.postsRepository.update(where, data);
   }
 
-  async deletePost(where: Prisma.PostWhereUniqueInput): Promise<PostModel> {
-    return this.prisma.post.delete({
-      where,
-    });
+  async deletePost(where: FindConditions<PostEntity>): Promise<DeleteResult> {
+    return this.postsRepository.delete(where);
   }
 }

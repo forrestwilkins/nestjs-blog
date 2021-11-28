@@ -1,8 +1,8 @@
 {
   "name": "nestjs-blog",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Blog backend built with NestJS and Prisma",
+  "author": "Forrest Wilkins",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

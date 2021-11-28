@@ -5,7 +5,6 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CommentsModule } from "./comments/comments.module";
 import { PostsModule } from "./posts/posts.module";
-import { PrismaModule } from "./prisma/prisma.module";
 import { UsersModule } from "./users/users.module";
 import config from "./ormconfig";
 
@@ -17,7 +16,6 @@ import config from "./ormconfig";
     UsersModule,
     PostsModule,
     CommentsModule,
-    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

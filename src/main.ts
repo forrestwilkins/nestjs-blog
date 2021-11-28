@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle("Blog API")
-    .setDescription("Blog API built with NestJS and Prisma")
+    .setDescription("Blog API built with NestJS and TypeORM")
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, config);

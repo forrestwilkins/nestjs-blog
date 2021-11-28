@@ -49,3 +49,4 @@ lerna-debug.log*
 !.eslintrc
 !.babelrc
 !.github/
+!.env.example

@@ -2,7 +2,7 @@
   "name": "nestjs-blog",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Forrest Wilkins",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -19,7 +19,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node --require ts-node/register ./node_modules/typeorm/cli.js --config src/backend/ormconfig.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -28,15 +29,16 @@
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.1.4",
-    "@prisma/client": "^3.4.2",
+    "@nestjs/typeorm": "^8.0.2",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "prisma": "^3.4.2",
+    "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "typeorm": "^0.2.41"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -82,9 +84,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "prisma": {
-    "schema": "src/prisma/schema.prisma"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "npm run lint:fix",

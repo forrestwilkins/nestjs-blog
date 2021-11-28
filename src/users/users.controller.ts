@@ -8,11 +8,13 @@ import {
   Controller,
   UseGuards,
 } from "@nestjs/common";
-import { User as UserModel, Post as PostModel } from "@prisma/client";
-import { UsersService } from "./users.service";
-import { PostsService } from "../posts/posts.service";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { ApiTags } from "@nestjs/swagger";
+import { DeleteResult, UpdateResult } from "typeorm";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { PostEntity } from "../posts/post.entity";
+import { UsersService } from "./users.service";
+import { UserEntity } from "./user.entity";
+import { PostsService } from "../posts/posts.service";
 
 @ApiTags("users")
 @Controller("users")
@@ -24,21 +26,19 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getUsers(): Promise<UserModel[]> {
+  async getUsers(): Promise<UserEntity[]> {
     return this.usersService.users({});
   }
 
   @Get(":id")
-  async getUserById(@Param("id") id: string): Promise<UserModel> {
-    return this.usersService.user({ id: Number(id) });
+  async getUserById(@Param("id") id: string): Promise<UserEntity> {
+    return this.usersService.user({ where: { id: Number(id) } });
   }
 
   @Get(":id/posts")
-  async getPosts(@Param("id") id: string): Promise<PostModel[]> {
+  async getPosts(@Param("id") id: string): Promise<PostEntity[]> {
     return this.postsService.posts({
-      where: {
-        userId: Number(id),
-      },
+      where: { userId: Number(id) },
     });
   }
 
@@ -46,7 +46,7 @@ export class UsersController {
   @Post()
   async signupUser(
     @Body() userData: { name: string; password: string }
-  ): Promise<UserModel> {
+  ): Promise<UserEntity> {
     return this.usersService.createUser(userData);
   }
 
@@ -55,7 +55,7 @@ export class UsersController {
   async updateUser(
     @Param() { id }: { id: string },
     @Body() userData: { name: string; password: string }
-  ): Promise<UserModel> {
+  ): Promise<UpdateResult> {
     return this.usersService.updateUser({
       where: {
         id: Number(id),
@@ -66,7 +66,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
-  async deleteUser(@Param("id") id: string): Promise<UserModel> {
+  async deleteUser(@Param("id") id: string): Promise<DeleteResult> {
     return this.usersService.deleteUser({ id: Number(id) });
   }
 }

@@ -11,6 +11,11 @@ const config: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [UserEntity, PostEntity, CommentEntity],
+  migrations: ["src/migrations/**/*.ts"],
+  cli: {
+    migrationsDir: "src/migrations",
+  },
+  synchronize: process.env.NODE_ENV === "development",
   keepConnectionAlive: true,
 };
 
